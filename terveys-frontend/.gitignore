@@ -1,0 +1,6 @@
+public/js/
+node_modules/
+.m2/
+.shadow-cljs/
+.cpcache/
+.lsp/

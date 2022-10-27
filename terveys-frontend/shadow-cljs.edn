@@ -4,14 +4,13 @@
 
  :dependencies
  [[cljs-http "0.1.46"]
-  [hickory "0.7.1"]
   [prismatic/dommy "1.1.0"]
   [hipo "0.5.2"]]
 
 
  :dev-http {8080 "public"}
  :builds
- {:terveys
+ {:terveys-frontend
   {:target :browser
    :modules {:main {:init-fn terveys.app/init}} 
    :compiler-options 

@@ -3,7 +3,7 @@
 ?/
 .m2/
 .shadow-cljs/
-public/
+public/js/
 .cpcache/
 .lsp/
 node_modules/

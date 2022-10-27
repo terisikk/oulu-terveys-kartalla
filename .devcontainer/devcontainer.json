@@ -37,7 +37,7 @@
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [8080, 42543, 9630], // example: your webapp, your nREPL
+	"forwardPorts": [8080, 42543, 9630, 3000], // example: your webapp, your nREPL
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "java -version",
