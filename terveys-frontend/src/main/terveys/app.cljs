@@ -26,7 +26,9 @@
         (render-healthcenter-data (:body response)))))
 
 (defn append-healthcenter-data-by-id [center]
-    (append-healthcenter-data (str "http://127.0.0.1:3000/jono?palvelu=" center)))
+  (if goog.DEBUG
+    (append-healthcenter-data (str "http://127.0.0.1:3000/jono?palvelu=" center))
+    (append-healthcenter-data (str "https://terveys.teemurisikko.com/api/jono?palvelu=" center))))
 
 (defn init []
   (doall (map append-healthcenter-data-by-id ["TUIRAAK" "KAAKKURIAK"])))
