@@ -11,7 +11,8 @@
   {:name "Tuira akuuttivastaanotto" :curnumber "AI018" :curqueue "9" :queuetime "57 min"})
 
 (defn make-remote-call [endpoint]
-  (:body (go (<! (http/get endpoint)))))
+  (go (let [response (<! (http/get endpoint))]
+      (:body response))))
 
 (defn healthcare-json-to-html [json]
   (js/console.log json)
