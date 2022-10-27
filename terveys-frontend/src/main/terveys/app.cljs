@@ -6,16 +6,7 @@
 
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-
-(defn mock-remote-call []
-  {:name "Tuira akuuttivastaanotto" :curnumber "AI018" :curqueue "9" :queuetime "57 min"})
-
-(defn make-remote-call [endpoint]
-  (go (let [response (<! (http/get endpoint))]
-      (:body response))))
-
 (defn healthcare-json-to-html [json]
-  (js/console.log json)
   (hipo/create
    [:table
     [:tr
@@ -24,14 +15,19 @@
      [:td [:img {:src "images/queue.png" :class "icon"}] [:span (:curqueue json)]]
      [:td [:img {:src "images/time.png" :class "icon"}] [:span (:queuetime json)]]]]))
 
-(defn get-healthcenter-json [center]
-  (if goog.DEBUG
-    (mock-remote-call)
-    (make-remote-call (str "https://terveys.teemurisikko.com/api/jono?palvelu=" center))))
+(defn render-healthcenter-data [json]
+  (dommy/append! (sel1 :#healthcenter) (healthcare-json-to-html json)))
 
-(defn render-healthcenter-data [center]
-  (dommy/append! (sel1 :#healthcenter) (healthcare-json-to-html (get-healthcenter-json center))))
+(defn mock-remote-call []
+  {:name "Tuira akuuttivastaanotto" :curnumber "AI018" :curqueue "9" :queuetime "57 min"})
 
-(defn init [] 
-  (doall (map render-healthcenter-data ["TUIRAAK" "KAAKKURIAK"])))
+(defn append-healthcenter-data [endpoint]
+  (go (let [response (<! (http/get endpoint {:with-credentials? false}))]
+        (render-healthcenter-data (:body response)))))
+
+(defn append-healthcenter-data-by-id [center]
+    (append-healthcenter-data (str "http://127.0.0.1:3000/jono?palvelu=" center)))
+
+(defn init []
+  (doall (map append-healthcenter-data-by-id ["TUIRAAK" "KAAKKURIAK"])))
 
